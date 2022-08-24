@@ -6,7 +6,6 @@ chrome.extension.onMessage.addListener(
       console.log('request',request);
     if(request.message=="btStart_click")
     {
-      stopTimer();
       chrome.tabs.insertCSS(null,{file:"css/page.css"});
       chrome.tabs.executeScript(null,{file:"scripts/jquery-1.12.1.min.js"});
       chrome.tabs.executeScript(null,{file:"scripts/page.js"});
@@ -26,6 +25,7 @@ chrome.extension.onMessage.addListener(
  });
  
  function stopTimer(){
+     console.log('stopTimer');
    if(hasInject) //如果之前未注入gs.js，会报错
         chrome.tabs.executeScript(null,{code:"stopTimer();"}); 
  }
@@ -40,7 +40,7 @@ chrome.extension.onMessage.addListener(
     
     var options={ 
           lang: "utf-8",
-          icon: "images/eye.png",
+          icon: "images/eye72.png",
           body: content || "您监控的网页内容发生了改变！"
       };
     var n = new Notification("网页监控助手Demo！", options);
@@ -53,9 +53,11 @@ chrome.extension.onMessage.addListener(
     };
  }
  
+/*
  function sendMail(receiver,subject,message){
    $.post('http://mail.liyumeng.me/SendMail','token=7F830C40B1594B05901779C1D24E2940&receivers='+receiver+'&subject='+subject+'&message='+message,function(dat){console.log(dat);});
  }
+*/
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
     for (key in changes) {

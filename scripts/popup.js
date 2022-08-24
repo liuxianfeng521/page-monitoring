@@ -14,30 +14,45 @@ window.onload = function () {
         console.log('rules',data);
         if (data == undefined || data == null)
             data = '';
-        document.getElementById('selector').value = data.rules.selector;
-        document.getElementById('condition-value').value = data.rules.conditionValue;
-        document.getElementById("content-condition").value = data.rules.contentCondition;
+        document.getElementById('selector').value = data.rules[0].selector ||'';
+        document.getElementById('condition-value').value = data.rules[0].conditionValue||'';
+        document.getElementById("content-condition").value = data.rules[0].contentCondition||'';
+
+        document.getElementById('selector2').value = data.rules[1].selector;
+        document.getElementById('condition-value2').value = data.rules[1].conditionValue||'';
+        document.getElementById("content-condition2").value = data.rules[1].contentCondition||'';
     });
 
     document.getElementById('btStart').onclick = function () {
-        // 设置匹配条件
-        var myselect = document.getElementById("content-condition");
 
-        var selectedValue = myselect.value
+        // 设置xpath路径
+        var selector = document.getElementById("selector").value;
+        // 设置匹配条件
+        var contentCondition = document.getElementById("content-condition").value
         // 设置规则值
         var conditionValue = document.getElementById("condition-value").value;
 
         // 设置xpath路径
-        var selector = document.getElementById("selector").value;
-        let rules = {
-            "contentCondition": selectedValue,
-            conditionValue:conditionValue,
+        var selector2 = document.getElementById("selector2").value;
+        // 设置匹配条件
+        var contentCondition2 = document.getElementById("content-condition2").value
+        // 设置规则值
+        var conditionValue2 = document.getElementById("condition-value2").value;
+
+
+        let rules = [{
+            contentCondition,
+            conditionValue,
             selector
-        }
+        },{
+            contentCondition:contentCondition2,
+            conditionValue:conditionValue2,
+            selector:selector2
+        }]
 
         chrome.storage.sync.set({
-            timeInterval: document.getElementById('timeInterval').value,
-            emailAddress: document.getElementById('emailAddress').value,
+            //timeInterval: document.getElementById('timeInterval').value,
+            //emailAddress: document.getElementById('emailAddress').value,
             rules
         }, function (res) {
             console.log('resresres', res);

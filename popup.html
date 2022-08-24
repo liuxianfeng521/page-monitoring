@@ -1,7 +1,7 @@
 ﻿<!doctype html>
 <html>
 <head>
-    <title>网页监控助手设置</title>
+    <title>网页监控Dome设置</title>
     <style>
         body {
             min-width: 357px;
@@ -46,16 +46,24 @@
             background-color: #d9534f;
             color: white;
         }
+        .content{
+            display: flex;
+            flex-direction: column;
+        }
+        .content-item{
+            display: flex;
+            margin-top:10px;
+            align-items: center;
+        }
     </style>
 
     <script src="scripts/popup.js"></script>
 </head>
 <body>
-<p align="center" style="font-size:20px;">欢迎使用网页监控Demo！</p>
+<p align="center" style="font-size:20px;">欢迎使用网页监控Demo</p>
 <div style="margin-top:5px;">
-
-    <div style="margin-left:auto;margin-right:auto;width:600px;">
-        <div>
+    <div style="margin-left:auto;margin-right:auto;width:700px;">
+        <!--<div>
             <label>添加邮箱：</label><input class="form-text" type="text" placeholder="目前只支持QQ邮箱"
                                            id="emailAddress"/>
         </div>
@@ -64,25 +72,42 @@
                                            placeholder="请输入刷新频率"/>
             <label
                 style="margin-left:-35px;border-left:1px solid #ccc;padding-left:5px;">秒</label>
-        </div>
-        <div style="margin-top:10px;">
-            <label>选择器：</label>
-            <select name="selectType" id="selectType" disabled>
-                <option value="css">CSS</option>
-                <option value="xpath" selected="selected">XPATH</option>
-            </select>
-            <input class="form-text" type="text" id="selector" placeholder="请输入选择器"/>
-        </div>
-        <div style="margin-top:10px;">
-            <label>匹配规则：</label>
-            <select name="content-condition" id="content-condition">
-                <option value="notempty">不空</option>
-                <option value="gt">数字大于</option>
-                <option value="lt">数字小于</option>
-                <option value="include" selected="selected">包含</option>
-                <option value="regex" >正则匹配</option>
-            </select>
-            <input class="form-text" id="condition-value" type="text" placeholder="请输入值"/>
+        </div>-->
+        <div class="content">
+            <div class="content-item">
+                <label>选择器：</label>
+                <select name="selectType" id="selectType" disabled>
+                    <option value="css">CSS</option>
+                    <option value="xpath" selected="selected">XPATH</option>
+                </select>
+                <input class="form-text" type="text" id="selector" placeholder="请输入选择器"/>
+                <label>匹配规则：</label>
+                <select name="content-condition" id="content-condition">
+                    <option value="notempty">不空</option>
+                    <option value="gt">数字大于</option>
+                    <option value="lt">数字小于</option>
+                    <option value="include" selected="selected">包含</option>
+                    <option value="regex" >正则匹配</option>
+                </select>
+                <input class="form-text" id="condition-value" type="text" placeholder="请输入值"/>
+            </div>
+            <div style="margin-top:10px;">
+                <label>选择器：</label>
+                <select name="selectType" id="selectType2" disabled>
+                    <option value="css">CSS</option>
+                    <option value="xpath" selected="selected">XPATH</option>
+                </select>
+                <input class="form-text" type="text" id="selector2" placeholder="请输入选择器"/>
+                <label>匹配规则：</label>
+                <select name="content-condition" id="content-condition2">
+                    <option value="notempty">不空</option>
+                    <option value="gt">数字大于</option>
+                    <option value="lt">数字小于</option>
+                    <option value="include" selected="selected">包含</option>
+                    <option value="regex" >正则匹配</option>
+                </select>
+                <input class="form-text" id="condition-value2" type="text" placeholder="请输入值"/>
+            </div>
         </div>
         <div style="margin-top:20px;margin-bottom:20px;" align="center">
             <input class="form-button" type="button" value="开始监听" id="btStart"/>
