@@ -1,7 +1,7 @@
 ﻿window.onload = function () {
     console.log('popup load')
     chrome.storage.sync.get('xpath', function (data) {
-        document.getElementById('textarea').value = data.xpath;
+        document.getElementById('textarea').value = data.xpath||'';
     });
 
     document.getElementById('btStart').onclick = function () {
@@ -16,6 +16,9 @@
     };
     document.getElementById('btFind').onclick = function () {
         chrome.extension.sendMessage({message: 'btFind_click'});
+    };
+    document.getElementById('btManualStart').onclick = function () {
+        chrome.extension.sendMessage({message: 'btManualStart_click'});
     };
 
     document.getElementById('settings').onclick = function () {

@@ -1,109 +1,273 @@
 <html>
 <head>
- <meta charset="utf-8">
- <title>智能助手</title>
- <script src="scripts/options.js"></script>
- <style>
-  body {
-   min-width: 1024px;
-   overflow: auto;
-  }
-  .app {
-   font-family: Avenir,Helvetica,Arial,sans-serif;
-   -webkit-font-smoothing: antialiased;
-   text-align: center;
-   color: #2c3e50;
-   padding: 10px 10%;
-  }
-  .title{
-   display: flex;
-   font-size: 20px;
-   font-weight: 700;
-   padding-bottom: 5px;
-   margin-bottom: 30px;
-   color: #42b983;
-   text-align: left;
-   border-bottom: 3px solid #42b983;
-  }
-  .desc {
-   flex: 1;
-   font-weight: 100;
-  }
-  .help {
-   text-decoration: none;
-   color: #737373;
-   font-size: 12px;
-   font-weight: 400;
-   line-height: 30px;
-   padding-left: 18px;
-   background: url(/images/help.png) 0 center no-repeat;
-   background-size: 14px auto;
-  }
-  .main {
-   display: flex;
-  }
-  .sidebar {
-   min-width: 120px;
-  }
-  ul {
-   list-style: none;
-  }
-  li {
-   font-size: 18px;
-   color: #42b983;
-   text-align: left;
-   padding: 5px 10px;
-   cursor: pointer;
-   transition: background-color,color .2s ease-in-out;
-  }
-  li.active {
-   color: #fff;
-   background-color: #42b983;
-  }
-  .content {
-   flex: 1;
-   width: 100%;
-   overflow-x: hidden;
-   padding-left: 50px;
-  }
- </style>
+    <meta charset="utf-8">
+    <title>智能助手</title>
+    <script src="scripts/options.js"></script>
+    <style>
+        body {
+            min-width: 1024px;
+            overflow: auto;
+            --blueColor:rgb(5, 104, 220);
+            --grayColor:#737373;
+            --whiteColor:#fff;
+        }
+
+        .app {
+            font-family: Avenir, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            text-align: center;
+            color: #2c3e50;
+            padding: 10px 10%;
+        }
+
+        .title {
+            display: flex;
+            font-size: 20px;
+            font-weight: 700;
+            padding-bottom: 5px;
+            margin-bottom: 30px;
+            color: var(--blueColor);
+            text-align: left;
+            border-bottom: 3px solid var(--blueColor);
+        }
+
+        .desc {
+            flex: 1;
+            font-weight: 100;
+        }
+
+        .help {
+            text-decoration: none;
+            color: var(--grayColor);
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 30px;
+            padding-left: 18px;
+            background: url(/images/help.png) 0 center no-repeat;
+            background-size: 14px auto;
+        }
+
+        .main {
+            display: flex;
+        }
+
+        .sidebar {
+            min-width: 120px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            font-size: 18px;
+            color: var(--blueColor);
+            text-align: left;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color, color .2s ease-in-out;
+        }
+
+        li.active {
+            color: var(--whiteColor);
+            background-color: var(--blueColor);
+        }
+
+        .content {
+            flex: 1;
+            width: 100%;
+            overflow-x: hidden;
+            padding-left: 50px;
+        }
+
+        .container {
+            position: relative;
+            text-align: left;
+        }
+
+        .form {
+            position: relative;
+        }
+
+        .row {
+            min-height: 28px;
+            line-height: 28px;
+            vertical-align: middle;
+            margin-bottom: 8px;
+            display: flex;
+        }
+
+        .row .label {
+            font-size: 14px;
+            font-weight: 700;
+            padding-right: 8px;
+            min-width: 90px;
+            text-align: right;
+        }
+
+        .row .ipt {
+            display: inline-block;
+            flex: 1;
+            border: 0;
+            border-bottom: 1px solid var(--whiteColor);
+        }
+
+        .operate {
+            text-align: right;
+        }
+
+        .operate .btn-save, .operate .btn-cancel {
+            padding: 5px 20px;
+            font-size: 16px;
+        }
+
+        input[type=button] {
+            font-size: 12px;
+            color: rgb(5, 104, 220);
+            background-color: var(--whiteColor);
+            border: 1px solid var(--blueColor);
+            outline: 0;
+            border-radius: 3px;
+            margin: 0 4px;
+            cursor: pointer;
+        }
+        input[type=button].btn-del {
+            background-color: var(--whiteColor);
+            border-color: red;
+            color: red;
+        }
+        .condition .item {
+            flex: 1;
+            display: flex;
+        }
+        .row select {
+            margin: 0 8px;
+        }
+        .condition .item .regex {
+            flex: 1;
+        }
+    </style>
 </head>
 <body>
 <div id="app">
- <div class="app">
-  <div class="title" >
-   <span data-v-744c1fde="">网页更新提醒：</span>
-   <span class="desc" data-v-744c1fde="">监控并记录网页内容变化，一旦有更新立即通知你</span>
-   <a class="help" href="https://courier.toptopn.com/helper.html?from=ext" target="_blank" data-v-744c1fde="">帮助中心</a>
-  </div>
-  <div class="main">
-   <div class="sidebar" >
-    <ul>
-     <li><a href="#item1">全局设置</a></li>
-     </li>
-     <li><a href="#item2">局部设置</a></li>
-     <li><a href="#item1"><span >运行中</span></a></li>
-     </ul>
-  </div>
-   <div class="content">
-    <div id="item1" class="item">
-     item1
+    <div class="app">
+        <div class="title">
+            <span data-v-744c1fde="">网页更新提醒：</span>
+            <span class="desc" data-v-744c1fde="">监控并记录网页内容变化，一旦有更新立即通知你</span>
+            <a class="help" href="https://www.baidu.com/" target="_blank" data-v-744c1fde="">帮助中心</a>
+        </div>
+        <div class="main">
+            <div class="sidebar">
+                <ul>
+                    <li><span href="#item1">规则配置</span></li>
+                    </li>
+                  <!--  <li><span href="#item2">局部设置</span></li>
+                    <li><span href="#item1"><span>运行中</span></span></li>-->
+                </ul>
+            </div>
+            <div class="content">
+                <div class="form">
+                    <div class="row">
+                        <span class="label">标题：</span>
+                        <input class="ipt" type="text">
+                    </div>
+                    <div class="row">
+                        <span class="label">网址：</span>
+                        <input class="ipt" type="text" readonly="">
+                    </div>
+                    <div class="row">
+                        <span class="label">匹配规则：</span>
+                        <span>满足以下条件才提醒
+                           <select name="condition" id="condition">
+                               <option value="all">全部</option>
+                               <option value="oneof">任意一个</option>
+                           </select>
+                            <!--<input type="button" title="添加" value="+">-->
+                         </span>
+                    </div>
+                    <div class="row">
+                        <span class="label">选择器：</span>
+                        <select name="selectType" id="selectType" disabled>
+                            <option value="css">CSS</option>
+                            <option value="xpath" selected>XPATH
+                            </option>
+                        </select>
+                        <input class="ipt" type="text"  id="selector" placeholder="请输入选择器">
+                    </div>
+                    <div class="row condition" >
+                        <span class="label" ></span>
+                        <div class="item" >
+                           <!-- <input class="btn-del" type="button" title="删除" value="-" >
+                            <select name="content" id="content" >
+                                <option value="added" >新增内容</option>
+                                <option value="removed" >删除内容</option>
+                                <option value="all" >全部内容</option>
+                            </select>-->
+                            <select name="content-condition" id="content-condition" >
+                                <option value="notempty" >不为空</option>
+                                <option value="gt" >数字大于</option>
+                                <option value="lt" >数字小于</option>
+                                <option value="include" >包含</option>
+                                <option value="regex" selected>正则匹配</option>
+                                <option value="numgt" >包含文本数量大于</option>
+                                <option value="numlt" >包含文本数量小于</option>
+                                <option value="incnumgt" >新增文本数量大于</option>
+                                <option value="incpercentgt" >新增文本数量百分比大于</option>
+                                <option value="decnumgt" >包含文本数量减少</option>
+                                <option value="decpercentgt" >包含文本数量减少百分比大于</option>
+                            </select>
+                            <input class="regex" placeholder="支持正则表达式，\d+ 表示一或多个数字，.+ 表示一或多个非换行字符"
+                                   type="text"
+                                   id="condition-value" >
+                        </div>
+                    </div>
+                    <div class="row">
+                        <span class="label">选择器：</span>
+                        <select name="selectType" id="selectType2" disabled>
+                            <option value="css">CSS</option>
+                            <option value="xpath" selected>XPATH
+                            </option>
+                        </select>
+                        <input class="ipt" type="text"  id="selector2" placeholder="请输入选择器">
+                    </div>
+                    <div class="row condition" >
+                        <span class="label" ></span>
+                        <div class="item" >
+                            <!-- <input class="btn-del" type="button" title="删除" value="-" >
+                             <select name="content" id="content" >
+                                 <option value="added" >新增内容</option>
+                                 <option value="removed" >删除内容</option>
+                                 <option value="all" >全部内容</option>
+                             </select>-->
+                            <select name="content-condition" id="content-condition2" >
+                                <option value="notempty" >不为空</option>
+                                <option value="gt" >数字大于</option>
+                                <option value="lt" >数字小于</option>
+                                <option value="include" >包含</option>
+                                <option value="regex" selected>正则匹配</option>
+                                <option value="numgt" >包含文本数量大于</option>
+                                <option value="numlt" >包含文本数量小于</option>
+                                <option value="incnumgt" >新增文本数量大于</option>
+                                <option value="incpercentgt" >新增文本数量百分比大于</option>
+                                <option value="decnumgt" >包含文本数量减少</option>
+                                <option value="decpercentgt" >包含文本数量减少百分比大于</option>
+                            </select>
+                            <input class="regex" placeholder="支持正则表达式，\d+ 表示一或多个数字，.+ 表示一或多个非换行字符"
+                                   id="condition-value2"
+                                   type="text" >
+                        </div>
+                    </div>
+                   <!-- <div class="row"><span class="label">排除规则：</span>
+                        <span>忽略符合以下规则更新
+                            <input type="button" title="添加" value="+"></span>
+                    </div>-->
+                </div>
+                <div class="operate">
+                    <input class="btn-save" type="button" id="save" value="保存">
+                    <input class="btn-cancel" type="button" id="cancle" value="取消"></div>
+            </div>
+        </div>
     </div>
-    <div id="item2" class="item">
-     item2
-    </div>
-   </div>
- </div>
 </div>
-</div>
-Favorite Color:
-<select id="color">
- <option value="red">red</option>
- <option value="green">green</option>
- <option value="blue">blue</option>
- <option value="yellow">yellow</option>
-</select>
-<br>
-<button type="button" id="save">Save</button>
 </body>
 </html>

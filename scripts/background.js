@@ -10,11 +10,12 @@ chrome.extension.onMessage.addListener(
       chrome.tabs.executeScript(null,{file:"scripts/page.js"});
       hasInject=true;
     }
-    
     if(request.message=="PageChangedEvent") {
       playNotification(request.content);
+    }if(request.message=="btManualStart_click") {
+        console.log('btManualStart_click');
+          btManualStart_click();
     }
-    
     if(request.message=="btStop_click") {
       stopTimer();
     }
@@ -30,12 +31,20 @@ chrome.extension.onMessage.addListener(
     }
       
  });
- 
+
  function stopTimer(){
      console.log('stopTimer');
    if(hasInject) //如果之前未注入gs.js，会报错
         chrome.tabs.executeScript(null,{code:"stopTimer();"}); 
  }
+function btManualStart_click(){
+    console.log('btManualStart_click');
+    chrome.tabs.insertCSS(null,{file:"css/page.css"});
+    chrome.tabs.executeScript(null,{file:"scripts/jquery-1.12.1.min.js"});
+    chrome.tabs.executeScript(null,{file:"scripts/page.js"},(()=>{
+        chrome.tabs.executeScript(null,{code:"btManualStart_click();"});
+    }))
+}
 
 function findElement(){
     console.log('findElement');
@@ -45,25 +54,24 @@ function findElement(){
  
  this.audio = null;
  function playNotification(content){
-    if(this.audio==null){
+   /* if(this.audio==null){
       this.audio=new Audio('files/attention.mp3');
       this.audio.loop=true;
       this.audio.play();
-    }
-    
+    }*/
     var options={ 
           lang: "utf-8",
           icon: "images/eye72.png",
           body: content || "您监控的网页内容发生了改变！"
       };
     var n = new Notification("网页监控助手Demo！", options);
-    n.onclose=function(d){
-      if(window.audio!=null)
-      {
-        window.audio.pause();
-        window.audio=null;
-      }
-    };
+    // n.onclose=function(d){
+    //   if(window.audio!=null)
+    //   {
+    //     window.audio.pause();
+    //     window.audio=null;
+    //   }
+    // };
  }
  
 /*
@@ -73,6 +81,7 @@ function findElement(){
 */
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
+    console.log('background storage');
     for (key in changes) {
         var storageChange = changes[key];
         console.log('存储键“%s”（位于“%s”命名空间中）已更改。' +

@@ -1,6 +1,28 @@
+body {
+    --red: red;
+    --ymlInfoBackground: #FFFF99;
+    --button-container: #FFFF09;
+}
+
 #ymlInfo{
-    background-color: #FFFF99;
+    background-color:var(--ymlInfoBackground);
     padding: 5px;
     padding-left:10px;
     font-size: 20px;
+}
+
+#manualCartInfo{
+    position: absolute;
+    right: 176px;
+    background-color: var(--red);
+    z-index: 1001;
+    transform:translate3d(-35px,-70px,0px) ;
+    bottom: 100px;
+}
+.button-container{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    background: var(--button-container);
 }

@@ -1,6 +1,7 @@
 ﻿if($('#ymlInfo').length==0)
 {
   $('body').prepend("<div id='ymlInfo'>网页监听助手准备运行，正在读取配置数据</div>");
+
 }
 else{
   $('#ymlInfo').html("网页监听助手准备运行，正在读取配置数据");
@@ -14,20 +15,8 @@ var isRunning=false;
 
 init();
 
-//停止
-function stopTimer(){
-  console.log('stopTimerstopTimerstopTimer')
-  isRunning=false;
-  window.onbeforeunload='';
-  location.reload();
-}
 
 
-//根据xpath查询获取当节点
-function x(xpath) {
-  var result = document.evaluate(xpath, document, null, XPathResult.ANY_TYPE, null);
-  return result.iterateNext()
-}
 
 function init(){
   console.log('init');
@@ -41,10 +30,12 @@ function init(){
       let rules = data.rules;
       rules.forEach(item=>{ // 给添加规则元素绑定监听事件
         let node = x(item.selector);
-        node.addEventListener('change', function(event) {
-          console.log('changechange',event,item)
-          chedkNodeRule(node,item)
-      })
+        if(node){
+          node.addEventListener('change', function(event) {
+            console.log('changechange',event,item)
+            chedkNodeRule(node,item)
+          })
+        }
       });
 
     });
@@ -53,6 +44,38 @@ function init(){
 
   //stopTimer();
   //location.reload();
+}
+
+//停止
+function stopTimer(){
+  console.log('stopTimerstopTimerstopTimer')
+  isRunning=false;
+  window.onbeforeunload='';
+  location.reload();
+}
+//手动开始
+function btManualStart_click(){
+  console.log('btManualStart_click');
+  content="网页监听手动Demo已运行";
+  if($('#manualCartInfo').length==0)
+  {
+    $('body').prepend("<div id='manualCartInfo'><div class='button-container'>" +
+        +"wwwwwwww"+
+        "</div></div>");
+
+  }
+  else{
+    $('#manualCartInfo').html("网页监听助手准备运行，正在读取配置数据");
+  }
+  return 'tees'
+
+}
+
+
+//根据xpath查询获取当节点
+function x(xpath) {
+  var result = document.evaluate(xpath, document, null, XPathResult.ANY_TYPE, null);
+  return result.iterateNext()
 }
 
 // 根据节点和规则检查符合情况
@@ -105,6 +128,7 @@ function readXPath(element) {
 };
 
 
+//  定义鼠标事件
 function onmouseover(event){
   console.log('onmouseover',event)
   var x = event.clientX, y = event.clientY
@@ -193,5 +217,17 @@ function  findElement(){
   document.onmouseenter = onmouseenter;
   document.onmouseleave = onmouseleave;
 }
+
+chrome.storage.onChanged.addListener(function(changes, namespace) {
+  console.log('page storage');
+  for (key in changes) {
+    var storageChange = changes[key];
+    console.log('Storage key "%s" in namespace "%s" changed. ' +
+        'Old value was "%s", new value is "%s".',
+        key, //数据的索引key
+        namespace, //数据的存储空间类型，枚举值"sync", "local", "managed"
+        storageChange.oldValue,//变化前的值
+        storageChange.newValue); //变化后的值
+  }});
 
 

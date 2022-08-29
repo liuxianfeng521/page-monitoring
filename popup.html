@@ -11,6 +11,8 @@
             padding: 0;
             overflow: hidden;
             background: url(/images/bd.png) 0 0 repeat;
+            --blueColor:rgb(5, 104, 220);
+            --grayColor:#737373;
         }
 
         #app {
@@ -43,7 +45,7 @@
             margin-top: 10px;
             padding: 132px 15px 0;
             text-align: center;
-            color: #737373;
+            color: var(--grayColor);
         }
 
         .logo .version {
@@ -53,7 +55,7 @@
             transform: translate(-50%) scale(.9);
             transform-origin: left;
             margin-left: 60px;
-            color: #999;
+            color:var(--grayColor);
         }
 
         .main .operate-container {
@@ -71,9 +73,9 @@
             height: 32px;
             line-height: 32px;
             margin-top: 15px;
-            color: #42b983;
+            color: var(--blueColor);
             background-color: #fff;
-            border: 1px solid #42b983;
+            border: 1px solid var(--blueColor);
             outline: 0;
             border-radius: 3px;
             cursor: pointer;
@@ -85,9 +87,9 @@
             width: 40%;
             line-height: 32px;
             margin-top: 15px;
-            color: #42b983;
+            color: var(--blueColor);
             background-color: #fff;
-            border: 1px solid #42b983;
+            border: 1px solid var(--blueColor);
             outline: 0;
             border-radius: 3px;
             cursor: pointer;
@@ -96,9 +98,9 @@
         .main .operate-container .textarea {
             margin-top: 15px;
             width: 236px;
-            color: #42b983;
+            color: var(--blueColor);
             background-color: #fff;
-            border: 1px solid #42b983;
+            border: 1px solid var(--blueColor);
             outline: 0;
             border-radius: 3px;
             cursor: pointer;
@@ -128,7 +130,7 @@
         }
 
         .main .operate-container .btn.btn-selecting {
-            background-color: #42b983;
+            background-color: var(--blueColor);
             color: #fff;
         }
 
@@ -154,7 +156,7 @@
         .ft a {
             position: relative;
             display: inline-block;
-            color: #42b983;
+            color: var(--blueColor);
             height: 20px;
             line-height: 20px;
             padding-left: 24px;
@@ -169,7 +171,7 @@
         .ft a {
             position: relative;
             display: inline-block;
-            color: #42b983;
+            color: var(--blueColor);
             height: 20px;
             line-height: 20px;
             padding-left: 24px;
@@ -233,6 +235,14 @@
                 <!--<div class="tips list-tips">快捷键: Ctrl + Shift + 0</div>-->
             </div>
             <div>
+                <button class="btn" id="btManualStart">
+                    <span class="icon-wrap">
+                        <i class="icon icon-share"></i> 开始手动监听
+                    </span>
+                </button>
+                <!-- <div class="tips list-tips">快捷键: Ctrl + Shift + 9</div>-->
+            </div>
+            <div>
                 <button class="btn" id="btStop">
                     <span class="icon-wrap">
                         <i class="icon icon-share"></i> 停止监听
@@ -242,7 +252,7 @@
             </div>
         </div>
         <div class="ft">
-            <a class="helper" href="https://courier.toptopn.com/helper.html" target="_blank">
+            <a class="helper" href="https://www.baidu.com/" target="_blank">
                 <span class="icon"></span>
                 <span>帮助中心</span>
             </a>
@@ -250,56 +260,6 @@
                 <span class="icon"></span><span>反馈</span>
             </a>-->
         </div>
-        <!--<div>
-            <label>添加邮箱：</label><input class="form-text" type="text" placeholder="目前只支持QQ邮箱"
-                                           id="emailAddress"/>
-        </div>
-        <div style="margin-top:10px;">
-            <label>刷新频率：</label><input class="form-text" type="text" value="600" id="timeInterval"
-                                           placeholder="请输入刷新频率"/>
-            <label
-                style="margin-left:-35px;border-left:1px solid #ccc;padding-left:5px;">秒</label>
-        </div>-->
-        <!-- <div class="content">
-             <div class="content-item">
-                 <label>选择器：</label>
-                 <select name="selectType" id="selectType" disabled>
-                     <option value="css">CSS</option>
-                     <option value="xpath" selected="selected">XPATH</option>
-                 </select>
-                 <input class="form-text" type="text" id="selector" placeholder="请输入选择器"/>
-                 <label>匹配规则：</label>
-                 <select name="content-condition" id="content-condition">
-                     <option value="notempty">不空</option>
-                     <option value="gt">数字大于</option>
-                     <option value="lt">数字小于</option>
-                     <option value="include" selected="selected">包含</option>
-                     <option value="regex" >正则匹配</option>
-                 </select>
-                 <input class="form-text" id="condition-value" type="text" placeholder="请输入值"/>
-             </div>
-             <div style="margin-top:10px;">
-                 <label>选择器：</label>
-                 <select name="selectType" id="selectType2" disabled>
-                     <option value="css">CSS</option>
-                     <option value="xpath" selected="selected">XPATH</option>
-                 </select>
-                 <input class="form-text" type="text" id="selector2" placeholder="请输入选择器"/>
-                 <label>匹配规则：</label>
-                 <select name="content-condition" id="content-condition2">
-                     <option value="notempty">不空</option>
-                     <option value="gt">数字大于</option>
-                     <option value="lt">数字小于</option>
-                     <option value="include" selected="selected">包含</option>
-                     <option value="regex" >正则匹配</option>
-                 </select>
-                 <input class="form-text" id="condition-value2" type="text" placeholder="请输入值"/>
-             </div>
-         </div>
-         <div style="margin-top:20px;margin-bottom:20px;" align="center">
-             <input class="form-button" type="button" value="开始监听" id="btStart"/>
-             <input class="form-button" type="button" value="停止监听" id="btStop" style="margin-left:20px;">
-         </div>-->
     </div>
 </div>
 </div>
