@@ -1,67 +1,25 @@
 ﻿window.onload = function () {
-    chrome.storage.sync.get('emailAddress', function (data) {
-        document.getElementById('emailAddress').value = data.emailAddress;
-    });
-
-    chrome.storage.sync.get('timeInterval', function (data) {
-        if (data == undefined || data == null)
-            data = '';
-        document.getElementById('timeInterval').value = data.timeInterval;
-    });
-
-    chrome.storage.sync.get('rules', function (data) {
-        console.log('rules',data);
-        if (data == undefined || data == null)
-            data = '';
-        document.getElementById('selector').value = data.rules[0].selector ||'';
-        document.getElementById('condition-value').value = data.rules[0].conditionValue||'';
-        document.getElementById("content-condition").value = data.rules[0].contentCondition||'';
-
-        document.getElementById('selector2').value = data.rules[1].selector;
-        document.getElementById('condition-value2').value = data.rules[1].conditionValue||'';
-        document.getElementById("content-condition2").value = data.rules[1].contentCondition||'';
+    console.log('popup load')
+    chrome.storage.sync.get('xpath', function (data) {
+        document.getElementById('textarea').value = data.xpath;
     });
 
     document.getElementById('btStart').onclick = function () {
-
-        // 设置xpath路径
-        var selector = document.getElementById("selector").value;
-        // 设置匹配条件
-        var contentCondition = document.getElementById("content-condition").value
-        // 设置规则值
-        var conditionValue = document.getElementById("condition-value").value;
-
-        // 设置xpath路径
-        var selector2 = document.getElementById("selector2").value;
-        // 设置匹配条件
-        var contentCondition2 = document.getElementById("content-condition2").value
-        // 设置规则值
-        var conditionValue2 = document.getElementById("condition-value2").value;
-
-
-        let rules = [{
-            contentCondition,
-            conditionValue,
-            selector
-        },{
-            contentCondition:contentCondition2,
-            conditionValue:conditionValue2,
-            selector:selector2
-        }]
-
-        chrome.storage.sync.set({
-            //timeInterval: document.getElementById('timeInterval').value,
-            //emailAddress: document.getElementById('emailAddress').value,
-            rules
-        }, function (res) {
-            console.log('resresres', res);
+        chrome.storage.sync.get('rules', function (data) {
+            console.log('rules',data);
             chrome.extension.sendMessage({message: 'btStart_click'});
         });
-
     };
 
     document.getElementById('btStop').onclick = function () {
         chrome.extension.sendMessage({message: 'btStop_click'});
+    };
+    document.getElementById('btFind').onclick = function () {
+        chrome.extension.sendMessage({message: 'btFind_click'});
+    };
+
+    document.getElementById('settings').onclick = function () {
+        chrome.tabs.create({ url: '/options.html' });
     };
 
    /* function fcheckMail(myemail) {

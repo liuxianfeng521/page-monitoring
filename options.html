@@ -1,35 +1,101 @@
 <html>
-<head><title>My Test Extension Options</title></head>
-<script type="text/javascript">
-// Saves options to localStorage.
-function save_options() {
-  var select = document.getElementById("color");
-  var color = select.children[select.selectedIndex].value;
-  localStorage["favorite_color"] = color;
-  // Update status to let user know options were saved.
-  var status = document.getElementById("status");
-  status.innerHTML = "Options Saved.";
-  setTimeout(function() {
-    status.innerHTML = "";
-  }, 750);
-}
-// Restores select box state to saved value from localStorage.
-function restore_options() {
-  var favorite = localStorage["favorite_color"];
-  if (!favorite) {
-    return;
+<head>
+ <meta charset="utf-8">
+ <title>智能助手</title>
+ <script src="scripts/options.js"></script>
+ <style>
+  body {
+   min-width: 1024px;
+   overflow: auto;
   }
-  var select = document.getElementById("color");
-  for (var i = 0; i < select.children.length; i++) {
-    var child = select.children[i];
-    if (child.value == favorite) {
-      child.selected = "true";
-      break;
-    }
+  .app {
+   font-family: Avenir,Helvetica,Arial,sans-serif;
+   -webkit-font-smoothing: antialiased;
+   text-align: center;
+   color: #2c3e50;
+   padding: 10px 10%;
   }
-}
-</script>
-<body onload="restore_options()">
+  .title{
+   display: flex;
+   font-size: 20px;
+   font-weight: 700;
+   padding-bottom: 5px;
+   margin-bottom: 30px;
+   color: #42b983;
+   text-align: left;
+   border-bottom: 3px solid #42b983;
+  }
+  .desc {
+   flex: 1;
+   font-weight: 100;
+  }
+  .help {
+   text-decoration: none;
+   color: #737373;
+   font-size: 12px;
+   font-weight: 400;
+   line-height: 30px;
+   padding-left: 18px;
+   background: url(/images/help.png) 0 center no-repeat;
+   background-size: 14px auto;
+  }
+  .main {
+   display: flex;
+  }
+  .sidebar {
+   min-width: 120px;
+  }
+  ul {
+   list-style: none;
+  }
+  li {
+   font-size: 18px;
+   color: #42b983;
+   text-align: left;
+   padding: 5px 10px;
+   cursor: pointer;
+   transition: background-color,color .2s ease-in-out;
+  }
+  li.active {
+   color: #fff;
+   background-color: #42b983;
+  }
+  .content {
+   flex: 1;
+   width: 100%;
+   overflow-x: hidden;
+   padding-left: 50px;
+  }
+ </style>
+</head>
+<body>
+<div id="app">
+ <div class="app">
+  <div class="title" >
+   <span data-v-744c1fde="">网页更新提醒：</span>
+   <span class="desc" data-v-744c1fde="">监控并记录网页内容变化，一旦有更新立即通知你</span>
+   <a class="help" href="https://courier.toptopn.com/helper.html?from=ext" target="_blank" data-v-744c1fde="">帮助中心</a>
+  </div>
+  <div class="main">
+   <div class="sidebar" >
+    <ul>
+     <li><a href="#item1">全局设置</a></li>
+     </li>
+     <li><a href="#item2">局部设置</a></li>
+     <li><a href="#item1"><span >运行中</span></a></li>
+     </ul>
+  </div>
+   <div class="content">
+    <div id="item1" class="item">
+     item1
+    </div>
+    <div id="item2" class="item">
+     item2
+    </div>
+   </div>
+ </div>
+</div>
+</div>
 Favorite Color:
 <select id="color">
  <option value="red">red</option>
@@ -38,6 +104,6 @@ Favorite Color:
  <option value="yellow">yellow</option>
 </select>
 <br>
-<button onclick="save_options()">Save</button>
+<button type="button" id="save">Save</button>
 </body>
 </html>

@@ -4,22 +4,29 @@ var hasInject=false;
 chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
       console.log('request',request);
-    if(request.message=="btStart_click")
-    {
+    if(request.message=="btStart_click") {
       chrome.tabs.insertCSS(null,{file:"css/page.css"});
       chrome.tabs.executeScript(null,{file:"scripts/jquery-1.12.1.min.js"});
       chrome.tabs.executeScript(null,{file:"scripts/page.js"});
       hasInject=true;
     }
     
-    if(request.message=="PageChangedEvent")
-    {
+    if(request.message=="PageChangedEvent") {
       playNotification(request.content);
     }
     
-    if(request.message=="btStop_click")
-    {
+    if(request.message=="btStop_click") {
       stopTimer();
+    }
+    if(request.message=="btFind_click") {
+      findElement();
+    }
+    if(request.message=="findElementEvent") {
+        chrome.storage.sync.set({
+            //timeInterval: document.getElementById('timeInterval').value,
+            //emailAddress: document.getElementById('emailAddress').value,
+            xpath:request.xpath
+        });
     }
       
  });
@@ -29,6 +36,12 @@ chrome.extension.onMessage.addListener(
    if(hasInject) //如果之前未注入gs.js，会报错
         chrome.tabs.executeScript(null,{code:"stopTimer();"}); 
  }
+
+function findElement(){
+    console.log('findElement');
+    if(hasInject) //如果之前未注入gs.js，会报错
+        chrome.tabs.executeScript(null,{code:"findElement();"});
+}
  
  this.audio = null;
  function playNotification(content){

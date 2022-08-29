@@ -30,6 +30,7 @@ function x(xpath) {
 }
 
 function init(){
+  console.log('init');
   $.get(location.href,function(data){
     content="网页监听Demo已运行";
     $('#ymlInfo').html(content);
@@ -80,18 +81,6 @@ function chedkNodeRule(node,rule){
   }
 }
 
-$(window).click(function(event) {
-  console.log("Click event: ", event);
-});
-
-function mouse_down(event){
-  var x = event.clientX, y = event.clientY
-  var element = document.elementFromPoint(x, y)
-  if (!element) {
-    console.log("error: no element")
-  }
-  console.log(readXPath(element))
-}
 //获取xpath
 function readXPath(element) {
   if (element.id !== "") {//判断id属性，如果这个元素有id，则显 示//*[@id="xPath"]  形式内容
@@ -115,5 +104,94 @@ function readXPath(element) {
   }
 };
 
-document.onmousedown = mouse_down
+
+function onmouseover(event){
+  console.log('onmouseover',event)
+  var x = event.clientX, y = event.clientY
+  var element = document.elementFromPoint(x, y)
+  if (!element) {
+    console.log("error: no element")
+  }else {
+    element.style.setProperty('border', 'solid 1px #0000ff');
+
+  }
+}
+function onmousedown(event){
+  console.log('mousedown',event)
+  var x = event.clientX, y = event.clientY
+  var element = document.elementFromPoint(x, y)
+  if (!element) {
+    console.log("error: no element")
+  }else {
+    element.style.setProperty('border', 'solid 1px #00ff00');
+    let xPath = readXPath(element);
+    chrome.extension.sendMessage({message:'findElementEvent',xPath});
+  }
+  console.log(readXPath(element))
+  setTimeout(()=>{
+    element.style.removeProperty("border")
+  },500)
+}
+function onmouseup(event){
+  console.log('mouseup',event)
+  var x = event.clientX, y = event.clientY
+  var element = document.elementFromPoint(x, y)
+  if (!element) {
+    console.log("error: no element")
+  }else {
+   // element.style.setProperty('border', 'solid 1px #00ff00');
+  }
+}
+function onmousemove(event){
+  console.log('mousemove',event)
+  var x = event.clientX, y = event.clientY
+  var element = document.elementFromPoint(x, y)
+  if (!element) {
+    console.log("error: no element")
+  }else {
+    // element.style.setProperty('border', 'solid 1px #00ff00');
+  }
+}
+function onmouseout(event){
+  console.log('mouseout',event)
+  var x = event.clientX, y = event.clientY
+  var element = document.elementFromPoint(x, y)
+  if (!element) {
+    console.log("error: no element")
+  }else {
+    // element.style.setProperty('border', 'solid 1px #00ff00');
+    element.style.removeProperty("border")
+  }
+}
+function onmouseenter(event){
+  console.log('mouseenter',event)
+  var x = event.clientX, y = event.clientY
+  var element = document.elementFromPoint(x, y)
+  if (!element) {
+    console.log("error: no element")
+  }else {
+    // element.style.setProperty('border', 'solid 1px #00ff00');
+  }
+}
+function onmouseleave(event){
+  console.log('mouseleave',event)
+  var x = event.clientX, y = event.clientY
+  var element = document.elementFromPoint(x, y)
+  if (!element) {
+    console.log("error: no element")
+  }else {
+    // element.style.setProperty('border', 'solid 1px #00ff00');
+  }
+}
+//document.onmousedown = mouse_down
+function  findElement(){
+  document.onmouseover = onmouseover;
+  document.onmousedown = onmousedown;
+  document.onmouseup = onmouseup;
+  document.onmousemove = onmousemove;
+  document.onmouseout = onmouseout;
+  document.onmouseenter = onmouseenter;
+  document.onmouseleave = onmouseleave;
+}
+
 

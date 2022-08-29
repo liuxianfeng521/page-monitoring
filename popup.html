@@ -1,68 +1,255 @@
 ﻿<!doctype html>
 <html>
 <head>
-    <title>网页监控Dome设置</title>
-    <style>
-        body {
-            min-width: 357px;
-            overflow-x: hidden;
-        }
-
-        .form-text {
-            height: 20px;
-            padding: 6px 12px;
-            font-size: 14px;
-            color: #555;
-            background-color: #fff;
-            background-image: none;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .form-button {
-            color: #333;
-            background-color: #fff;
-            display: inline-block;
-            padding: 6px 12px;
-            margin-bottom: 0;
-            font-size: 14px;
-            font-weight: 400;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: middle;
-            -ms-touch-action: manipulation;
-            touch-action: manipulation;
-            cursor: pointer;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            background-image: none;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .form-button:hover {
-            background-color: #d9534f;
-            color: white;
-        }
-        .content{
-            display: flex;
-            flex-direction: column;
-        }
-        .content-item{
-            display: flex;
-            margin-top:10px;
-            align-items: center;
-        }
-    </style>
-
+    <title>网页智能助手</title>
     <script src="scripts/popup.js"></script>
+    <style>
+        html, body {
+            min-width: 320px;
+            height: 500px;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: url(/images/bd.png) 0 0 repeat;
+        }
+
+        #app {
+            margin: 0 auto;
+        }
+
+        .main {
+            margin: 0 auto;
+        }
+
+        .settings {
+            z-index: 1;
+            position: absolute;
+            cursor: pointer;
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            top: 15px;
+            right: 15px;
+            background: url(/images/setting.png) 0 0 repeat;
+            background-size: 24px 24px;
+        }
+
+        .logo {
+            z-index: 0;
+            position: relative;
+            background: url(/images/eye72.png) 0 0 no-repeat;
+            background-position: center top;
+            background-size: 128px auto;
+            margin-top: 10px;
+            padding: 132px 15px 0;
+            text-align: center;
+            color: #737373;
+        }
+
+        .logo .version {
+            position: absolute;
+            bottom: 26px;
+            left: 50%;
+            transform: translate(-50%) scale(.9);
+            transform-origin: left;
+            margin-left: 60px;
+            color: #999;
+        }
+
+        .main .operate-container {
+            text-align: center;
+        }
+
+        .main .operate-container .btn.btn-whole {
+            background: transparent;
+            border: 0;
+        }
+
+        .main .operate-container .btn {
+            position: relative;
+            width: 80%;
+            height: 32px;
+            line-height: 32px;
+            margin-top: 15px;
+            color: #42b983;
+            background-color: #fff;
+            border: 1px solid #42b983;
+            outline: 0;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .main .operate-container .btn2 {
+            position: relative;
+            height: 32px;
+            width: 40%;
+            line-height: 32px;
+            margin-top: 15px;
+            color: #42b983;
+            background-color: #fff;
+            border: 1px solid #42b983;
+            outline: 0;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .main .operate-container .textarea {
+            margin-top: 15px;
+            width: 236px;
+            color: #42b983;
+            background-color: #fff;
+            border: 1px solid #42b983;
+            outline: 0;
+            border-radius: 3px;
+            cursor: pointer;
+            height: 60px;
+        }
+
+        .icon-wrap {
+            padding-left: 22px;
+            position: relative;
+        }
+
+        .icon-wrap .icon {
+            position: absolute;
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            left: 0;
+            top: 50%;
+            margin-top: -9px;
+            background-image: url(/images/loading-hover.png);
+            background-repeat: no-repeat;
+            background-size: 18px 18px;
+        }
+
+        .icon-wrap .icon.icon-disabled {
+            background-image: url(/images/disabled-hover.png);
+        }
+
+        .main .operate-container .btn.btn-selecting {
+            background-color: #42b983;
+            color: #fff;
+        }
+
+        .tips {
+            color: #999;
+        }
+
+        .ft {
+            display: flex;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 15px 0;
+            border-top: 1px solid #e1ddd8;
+            background: url(/images/bg.png) 0 0 repeat;
+        }
+
+        .ft .helper {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .ft a {
+            position: relative;
+            display: inline-block;
+            color: #42b983;
+            height: 20px;
+            line-height: 20px;
+            padding-left: 24px;
+        }
+
+        a:-webkit-any-link {
+            color: -webkit-link;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .ft a {
+            position: relative;
+            display: inline-block;
+            color: #42b983;
+            height: 20px;
+            line-height: 20px;
+            padding-left: 24px;
+        }
+
+        .ft .icon {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: url(/images/helper.png) 0 0 repeat;
+            background-size: 20px 20px;
+        }
+
+        .ft .feedback {
+            float: right;
+            margin-right: 15px;
+        }
+
+        .ft .feedback .icon {
+            background-image: url(/images/feedback.png);
+        }
+
+    </style>
 </head>
 <body>
-<p align="center" style="font-size:20px;">欢迎使用网页监控Demo</p>
-<div style="margin-top:5px;">
-    <div style="margin-left:auto;margin-right:auto;width:700px;">
+<div id="app">
+    <div class="main">
+        <a class="settings" title="全局设置" id="settings"></a>
+        <div class="logo">监控并记录网页内容变化，一旦不符合设置立即通知您
+            <span class="version">v1.0.0.0</span>
+        </div>
+        <div class="operate-container">
+            <div>
+                <textarea class="textarea" id="textarea">
+                </textarea>
+            </div>
+            <div>
+                <button class="btn2" id="btFind">
+                        <span class="icon-wrap">
+                           <!-- <i class="icon icon-disabled"></i>-->
+                            选择元素
+                        </span>
+                </button>
+                <button class="btn2">
+                        <span class="icon-wrap">
+                            <!--<i class="icon icon-disabled"></i>-->
+                            验证元素
+                        </span>
+                </button>
+                <!-- <div class="tips">快捷键: Ctrl + Shift + 1</div>-->
+            </div>
+            <div>
+                <button class="btn btn-selecting" id="btStart">
+                    <span class="icon-wrap">
+                        <i class="icon icon-list"></i>开始监听
+                    </span>
+                </button>
+                <!--<div class="tips list-tips">快捷键: Ctrl + Shift + 0</div>-->
+            </div>
+            <div>
+                <button class="btn" id="btStop">
+                    <span class="icon-wrap">
+                        <i class="icon icon-share"></i> 停止监听
+                    </span>
+                </button>
+                <!-- <div class="tips list-tips">快捷键: Ctrl + Shift + 9</div>-->
+            </div>
+        </div>
+        <div class="ft">
+            <a class="helper" href="https://courier.toptopn.com/helper.html" target="_blank">
+                <span class="icon"></span>
+                <span>帮助中心</span>
+            </a>
+            <!--<a class="feedback" href="https://courier.toptopn.com/feedback.html" target="_blank">
+                <span class="icon"></span><span>反馈</span>
+            </a>-->
+        </div>
         <!--<div>
             <label>添加邮箱：</label><input class="form-text" type="text" placeholder="目前只支持QQ邮箱"
                                            id="emailAddress"/>
@@ -73,47 +260,49 @@
             <label
                 style="margin-left:-35px;border-left:1px solid #ccc;padding-left:5px;">秒</label>
         </div>-->
-        <div class="content">
-            <div class="content-item">
-                <label>选择器：</label>
-                <select name="selectType" id="selectType" disabled>
-                    <option value="css">CSS</option>
-                    <option value="xpath" selected="selected">XPATH</option>
-                </select>
-                <input class="form-text" type="text" id="selector" placeholder="请输入选择器"/>
-                <label>匹配规则：</label>
-                <select name="content-condition" id="content-condition">
-                    <option value="notempty">不空</option>
-                    <option value="gt">数字大于</option>
-                    <option value="lt">数字小于</option>
-                    <option value="include" selected="selected">包含</option>
-                    <option value="regex" >正则匹配</option>
-                </select>
-                <input class="form-text" id="condition-value" type="text" placeholder="请输入值"/>
-            </div>
-            <div style="margin-top:10px;">
-                <label>选择器：</label>
-                <select name="selectType" id="selectType2" disabled>
-                    <option value="css">CSS</option>
-                    <option value="xpath" selected="selected">XPATH</option>
-                </select>
-                <input class="form-text" type="text" id="selector2" placeholder="请输入选择器"/>
-                <label>匹配规则：</label>
-                <select name="content-condition" id="content-condition2">
-                    <option value="notempty">不空</option>
-                    <option value="gt">数字大于</option>
-                    <option value="lt">数字小于</option>
-                    <option value="include" selected="selected">包含</option>
-                    <option value="regex" >正则匹配</option>
-                </select>
-                <input class="form-text" id="condition-value2" type="text" placeholder="请输入值"/>
-            </div>
-        </div>
-        <div style="margin-top:20px;margin-bottom:20px;" align="center">
-            <input class="form-button" type="button" value="开始监听" id="btStart"/>
-            <input class="form-button" type="button" value="停止监听" id="btStop" style="margin-left:20px;">
-        </div>
+        <!-- <div class="content">
+             <div class="content-item">
+                 <label>选择器：</label>
+                 <select name="selectType" id="selectType" disabled>
+                     <option value="css">CSS</option>
+                     <option value="xpath" selected="selected">XPATH</option>
+                 </select>
+                 <input class="form-text" type="text" id="selector" placeholder="请输入选择器"/>
+                 <label>匹配规则：</label>
+                 <select name="content-condition" id="content-condition">
+                     <option value="notempty">不空</option>
+                     <option value="gt">数字大于</option>
+                     <option value="lt">数字小于</option>
+                     <option value="include" selected="selected">包含</option>
+                     <option value="regex" >正则匹配</option>
+                 </select>
+                 <input class="form-text" id="condition-value" type="text" placeholder="请输入值"/>
+             </div>
+             <div style="margin-top:10px;">
+                 <label>选择器：</label>
+                 <select name="selectType" id="selectType2" disabled>
+                     <option value="css">CSS</option>
+                     <option value="xpath" selected="selected">XPATH</option>
+                 </select>
+                 <input class="form-text" type="text" id="selector2" placeholder="请输入选择器"/>
+                 <label>匹配规则：</label>
+                 <select name="content-condition" id="content-condition2">
+                     <option value="notempty">不空</option>
+                     <option value="gt">数字大于</option>
+                     <option value="lt">数字小于</option>
+                     <option value="include" selected="selected">包含</option>
+                     <option value="regex" >正则匹配</option>
+                 </select>
+                 <input class="form-text" id="condition-value2" type="text" placeholder="请输入值"/>
+             </div>
+         </div>
+         <div style="margin-top:20px;margin-bottom:20px;" align="center">
+             <input class="form-button" type="button" value="开始监听" id="btStart"/>
+             <input class="form-button" type="button" value="停止监听" id="btStop" style="margin-left:20px;">
+         </div>-->
     </div>
 </div>
+</div>
+
 </body>
 </html>
