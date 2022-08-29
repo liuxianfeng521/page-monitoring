@@ -63,6 +63,9 @@ window.onload = function () {
 
   document.getElementById('cancle').onclick = function () {
     console.log('cancle');
+    top.window.opener=null;
+    top.window.open("", "_self");
+    top.window.close();
   };
 
   /* function fcheckMail(myemail) {
