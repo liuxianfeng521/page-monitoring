@@ -16,6 +16,10 @@
     document.getElementById('btSelect').onclick = function () {
         browser.extension.sendMessage({message: 'btSelect_click'});
     };
+    document.getElementById('btFind').onclick = function () {
+        let xpath = document.getElementById('textarea').value;
+        browser.extension.sendMessage({message: 'btFind_click',xpath});
+    };
     document.getElementById('btManualStart').onclick = function () {
         browser.extension.sendMessage({message: 'btManualStart_click'});
     };

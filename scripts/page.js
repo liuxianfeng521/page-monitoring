@@ -22,7 +22,7 @@ function init(){
        return;
       let rules = data.rules;
       rules.forEach(item=>{ // 给添加规则元素绑定监听事件
-        let node = x(item.selector);
+        let node = xpathToNode(item.selector);
         if(node){
           node.addEventListener('change', function(event) {
             console.log('changechange',event,item)
@@ -66,7 +66,7 @@ function btManualStart_click(){
 
 
 //根据xpath查询获取当节点
-function x(xpath) {
+function xpathToNode(xpath) {
   var result = document.evaluate(xpath, document, null, XPathResult.ANY_TYPE, null);
   return result.iterateNext()
 };
@@ -139,6 +139,38 @@ function  selectElement(){
     targetSelector = null;
   });
 }
+
+//验证元素
+function findElement(xpath){
+  const  element = xpathToNode(xpath);
+  showElement(element);
+}
+
+// 显示验证元素效果
+function showElement(element){
+  try{
+    const highlightElement = document.createElement("div");
+    highlightElement.id = "selenium-highlight";
+    document.body.appendChild(highlightElement);
+    const bodyRects = document.documentElement.getBoundingClientRect();
+    const elementRects = element.getBoundingClientRect();
+    highlightElement.style.left = parseInt(elementRects.left - bodyRects.left) + "px";
+    highlightElement.style.top = parseInt(elementRects.top - bodyRects.top) + "px";
+    highlightElement.style.width = parseInt(elementRects.width) + "px";
+    highlightElement.style.height = parseInt(elementRects.height) + "px";
+    highlightElement.style.position = "absolute";
+    highlightElement.style.zIndex = "100";
+    highlightElement.style.display = "block";
+    highlightElement.style.pointerEvents = "none";
+    highlightElement.className = "active-selenium-highlight";
+    setTimeout(() => {
+      document.body.removeChild(highlightElement);
+    }, 500);
+    return "element found";
+  } catch (e) {
+    return "element not found";
+  }
+};
 
 function TargetSelector(callback, cleanupCallback) {
   this.callback = callback;

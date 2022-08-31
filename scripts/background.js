@@ -2,7 +2,7 @@
 var hasInject=false;
 
 
-chrome.extension.onMessage.addListener(
+browser.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
       console.log('request',request);
     if(request.message=="btStart_click") {
@@ -11,9 +11,7 @@ chrome.extension.onMessage.addListener(
         browser.tabs.executeScript(null,{file:"scripts/page.js"});
       hasInject=true;
     }
-    if(request.message=="PageChangedEvent") {
-      playNotification(request.content);
-    }if(request.message=="btManualStart_click") {
+    if(request.message=="btManualStart_click") {
         console.log('btManualStart_click');
           btManualStart_click();
     }
@@ -23,6 +21,12 @@ chrome.extension.onMessage.addListener(
     if(request.message=="btSelect_click") {
         selectElement();
     }
+    if(request.message=="btFind_click") {
+        findElement(request.xpath);
+    }
+      if(request.message=="PageChangedEvent") {
+          playNotification(request.content);
+      }
     if(request.message=="findElementEvent") {
         browser.storage.sync.set({
             //timeInterval: document.getElementById('timeInterval').value,
@@ -53,6 +57,15 @@ function selectElement(){
     console.log('selectElement');
     if(hasInject) //如果之前未注入gs.js，会报错
         browser.tabs.executeScript(null,{code:"selectElement();"}).then(res=>{
+            console.log('selectElement res',res)
+        });
+}
+
+function findElement(xpath){
+    console.log('selectElement',xpath);
+   // browser.executeScript('findElement(`' + xpath + '`)');
+    if(hasInject) //如果之前未注入gs.js，会报错
+        browser.tabs.executeScript(null,{code:'findElement(`' + xpath + '`)'}).then(res=>{
             console.log('selectElement res',res)
         });
 }
