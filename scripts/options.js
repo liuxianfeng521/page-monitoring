@@ -10,7 +10,7 @@ window.onload = function () {
        document.getElementById('timeInterval').value = data.timeInterval;
    });*/
 
-  chrome.storage.sync.get('rules', function (data) {
+  browser.storage.sync.get('rules').then(data=>{
     console.log('rules',data);
     if (data == undefined || data == null)
       data = '';
@@ -75,7 +75,7 @@ window.onload = function () {
    }*/
 };
 
-chrome.storage.onChanged.addListener(function(changes, namespace) {
+browser.storage.onChanged.addListener(function(changes, namespace) {
   console.log('options storage');
   for (key in changes) {
     var storageChange = changes[key];

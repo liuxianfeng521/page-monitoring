@@ -1,22 +1,15 @@
-﻿if($('#ymlInfo').length==0)
-{
+﻿let content="网页监听助手准备运行";
+let isRunning=false;
+let targetSelector ;
+if($('#ymlInfo').length==0) {
   $('body').prepend("<div id='ymlInfo'>网页监听助手准备运行，正在读取配置数据</div>");
 
-}
-else{
+}else{
   $('#ymlInfo').html("网页监听助手准备运行，正在读取配置数据");
 }
-  
-var timer=null;
-
-var content="网页监听助手准备运行";
-var isRunning=false;
 
 
 init();
-
-
-
 
 function init(){
   console.log('init');
@@ -76,7 +69,7 @@ function btManualStart_click(){
 function x(xpath) {
   var result = document.evaluate(xpath, document, null, XPathResult.ANY_TYPE, null);
   return result.iterateNext()
-}
+};
 
 // 根据节点和规则检查符合情况
 function chedkNodeRule(node,rule){
@@ -86,7 +79,7 @@ function chedkNodeRule(node,rule){
     if(index ===-1){
       node.style.setProperty('border', 'solid 2px #ff0000');
       content = '输入信息必须包含：'+rule.conditionValue;
-      chrome.extension.sendMessage({message:'PageChangedEvent',url:location.href,content});
+      browser.extension.sendMessage({message:'PageChangedEvent',url:location.href,content});
     }else {
       node.style.setProperty('border', 'solid 0px #ff0000');
     }
@@ -97,7 +90,7 @@ function chedkNodeRule(node,rule){
     if(!isTrue){
       node.style.setProperty('border', 'solid 2px #ff0000');
       content = '输入信息必须符合正则规则：'+rule.conditionValue;
-      chrome.extension.sendMessage({message:'PageChangedEvent',url:location.href,content});
+      browser.extension.sendMessage({message:'PageChangedEvent',url:location.href,content});
     }else {
       node.style.setProperty('border', 'solid 0px #ff0000');
     }
@@ -125,109 +118,120 @@ function readXPath(element) {
       ix++;
     }
   }
-};
-
-
-//  定义鼠标事件
-function onmouseover(event){
-  console.log('onmouseover',event)
-  var x = event.clientX, y = event.clientY
-  var element = document.elementFromPoint(x, y)
-  if (!element) {
-    console.log("error: no element")
-  }else {
-    element.style.setProperty('border', 'solid 1px #0000ff');
-
-  }
-}
-function onmousedown(event){
-  console.log('mousedown',event)
-  var x = event.clientX, y = event.clientY
-  var element = document.elementFromPoint(x, y)
-  if (!element) {
-    console.log("error: no element")
-  }else {
-    element.style.setProperty('border', 'solid 1px #00ff00');
-    let xPath = readXPath(element);
-    chrome.extension.sendMessage({message:'findElementEvent',xPath});
-  }
-  console.log(readXPath(element))
-  setTimeout(()=>{
-    element.style.removeProperty("border")
-  },500)
-}
-function onmouseup(event){
-  console.log('mouseup',event)
-  var x = event.clientX, y = event.clientY
-  var element = document.elementFromPoint(x, y)
-  if (!element) {
-    console.log("error: no element")
-  }else {
-   // element.style.setProperty('border', 'solid 1px #00ff00');
-  }
-}
-function onmousemove(event){
-  console.log('mousemove',event)
-  var x = event.clientX, y = event.clientY
-  var element = document.elementFromPoint(x, y)
-  if (!element) {
-    console.log("error: no element")
-  }else {
-    // element.style.setProperty('border', 'solid 1px #00ff00');
-  }
-}
-function onmouseout(event){
-  console.log('mouseout',event)
-  var x = event.clientX, y = event.clientY
-  var element = document.elementFromPoint(x, y)
-  if (!element) {
-    console.log("error: no element")
-  }else {
-    // element.style.setProperty('border', 'solid 1px #00ff00');
-    element.style.removeProperty("border")
-  }
-}
-function onmouseenter(event){
-  console.log('mouseenter',event)
-  var x = event.clientX, y = event.clientY
-  var element = document.elementFromPoint(x, y)
-  if (!element) {
-    console.log("error: no element")
-  }else {
-    // element.style.setProperty('border', 'solid 1px #00ff00');
-  }
-}
-function onmouseleave(event){
-  console.log('mouseleave',event)
-  var x = event.clientX, y = event.clientY
-  var element = document.elementFromPoint(x, y)
-  if (!element) {
-    console.log("error: no element")
-  }else {
-    // element.style.setProperty('border', 'solid 1px #00ff00');
-  }
-}
-//document.onmousedown = mouse_down
-function  findElement(){
-  document.onmouseover = onmouseover;
-  document.onmousedown = onmousedown;
-  document.onmouseup = onmouseup;
-  document.onmousemove = onmousemove;
-  document.onmouseout = onmouseout;
-  document.onmouseenter = onmouseenter;
-  document.onmouseleave = onmouseleave;
 }
 
-chrome.storage.onChanged.addListener(function(changes, namespace) {
-  console.log('page storage');
-  for (key in changes) {
-    var storageChange = changes[key];
-    console.log('Storage key "%s" in namespace "%s" changed. ' +
-        'Old value was "%s", new value is "%s".',
-        key, //数据的索引key
-        namespace, //数据的存储空间类型，枚举值"sync", "local", "managed"
-        storageChange.oldValue,//变化前的值
-        storageChange.newValue); //变化后的值
-  }});
+// 选择元素
+function  selectElement(){
+  targetSelector = new TargetSelector( (element, win)=> {
+    console.log('element',element,win);
+    if (element && win) {
+      const target = readXPath(element);
+      console.log('target',target);
+      browser.storage.sync.set({
+        //timeInterval: document.getElementById('timeInterval').value,
+        //emailAddress: document.getElementById('emailAddress').value,
+        xpath:target
+      })
+    }
+    targetSelector = null;
+  },  () =>{
+    console.log('cleanupCallback')
+    targetSelector = null;
+  });
+}
+
+function TargetSelector(callback, cleanupCallback) {
+  this.callback = callback;
+  this.cleanupCallback = cleanupCallback;
+
+  // This is for XPCOM/XUL addon and can't be used
+  //var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
+  //this.win = wm.getMostRecentWindow('navigator:browser').getBrowser().contentWindow;
+
+  // Instead, we simply assign global content window to this.win
+  this.win = window;
+  const doc = this.win.document;
+  const div = doc.createElement("div");
+  div.setAttribute("style", "display: none;");
+  doc.body.insertBefore(div, doc.body.firstChild);
+  this.div = div;
+  this.e = null;
+  this.r = null;
+  doc.addEventListener("mousemove", this, true);
+  doc.addEventListener("click", this, true);
+}
+
+TargetSelector.prototype.cleanup =  function () {
+  try {
+    if (this.div) {
+      if (this.div.parentNode) {
+        this.div.parentNode.removeChild(this.div);
+      }
+      this.div = null;
+    }
+    if (this.win) {
+      const doc = this.win.document;
+      doc.removeEventListener("mousemove", this, true);
+      doc.removeEventListener("click", this, true);
+    }
+  } catch (e) {
+    if (e != "TypeError: can't access dead object") {
+      throw e;
+    }
+  }
+  this.win = null;
+  if (this.cleanupCallback) {
+    this.cleanupCallback();
+  }
+}
+
+TargetSelector.prototype.handleEvent =  function (evt) {
+  evt.preventDefault();
+  evt.stopPropagation();
+  switch (evt.type) {
+    case "mousemove":
+      this.highlight(evt.target.ownerDocument, evt.clientX, evt.clientY);
+      break;
+    case "click":
+      console.log('click');
+      if (evt.button == 0 && this.e && this.callback) {
+        this.callback(this.e, this.win);
+      } //Right click would cancel the select
+      evt.preventDefault();
+      evt.stopPropagation();
+      this.cleanup();
+      break;
+  }
+}
+
+TargetSelector.prototype.highlight =  function (doc, x, y) {
+  if (doc) {
+    const e = doc.elementFromPoint(x, y);
+    if (e && e != this.e) {
+      this.highlightElement(e);
+    }
+  }
+}
+
+TargetSelector.prototype.highlightElement =  function (element) {
+  if (element && element != this.e) {
+    this.e = element;
+  } else {
+    return;
+  }
+  const r = element.getBoundingClientRect();
+  const or = this.r;
+  if (r.left >= 0 && r.top >= 0 && r.width > 0 && r.height > 0) {
+    if (or && r.top == or.top && r.left == or.left && r.width == or.width && r.height == or.height) {
+      return;
+    }
+    this.r = r;
+    const style = "pointer-events: none; position: absolute; background-color: rgb(78, 171, 230); opacity: 0.4; border: 1px solid #0e0e0e; z-index: 100;";
+    const pos = "top:" + (r.top + this.win.scrollY) + "px; left:" + (r.left + this.win.scrollX) + "px; width:" + r.width + "px; height:" + r.height + "px;";
+    this.div.setAttribute("style", style + pos);
+  } else if (or) {
+    this.div.setAttribute("style", "display: none;");
+  }
+}
 
 

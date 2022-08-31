@@ -11,7 +11,8 @@
     "chrome://favicon/"
 	],
 	"background":{
-		"scripts":["scripts/jquery-1.12.1.min.js","scripts/background.js"],
+		"scripts":[
+          "scripts/jquery-1.12.1.min.js", "scripts/browser-polyfill.js", "scripts/background.js"],
 		"persistent":false
 	},
   "options_page":"options.html",
@@ -28,6 +29,8 @@
   "content_scripts":[{
     "matches":["*://*/*"],
     "css":[],
-    "js":["scripts/jquery-1.12.1.min.js"]
+    "js":["scripts/jquery-1.12.1.min.js","scripts/browser-polyfill.js"],
+    "match_about_blank": true,
+    "all_frames": true
   }]
 }

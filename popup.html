@@ -2,7 +2,8 @@
 <html>
 <head>
     <title>网页智能助手</title>
-    <script src="scripts/popup.js"></script>
+    <script type="application/javascript" src="scripts/browser-polyfill.js"></script>
+    <script type="application/javascript" src="scripts/popup.js"></script>
     <style>
         html, body {
             min-width: 320px;
@@ -212,13 +213,13 @@
                 </textarea>
             </div>
             <div>
-                <button class="btn2" id="btFind">
+                <button class="btn2" id="btSelect">
                         <span class="icon-wrap">
                            <!-- <i class="icon icon-disabled"></i>-->
                             选择元素
                         </span>
                 </button>
-                <button class="btn2">
+                <button class="btn2" id="btVerification">
                         <span class="icon-wrap">
                             <!--<i class="icon icon-disabled"></i>-->
                             验证元素

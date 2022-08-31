@@ -1,28 +1,27 @@
 ﻿window.onload = function () {
     console.log('popup load')
-    chrome.storage.sync.get('xpath', function (data) {
+    browser.storage.sync.get('xpath').then(data=>{
         document.getElementById('textarea').value = data.xpath||'';
     });
-
     document.getElementById('btStart').onclick = function () {
-        chrome.storage.sync.get('rules', function (data) {
+        browser.storage.sync.get('rules').then(data=>{
             console.log('rules',data);
-            chrome.extension.sendMessage({message: 'btStart_click'});
+            browser.extension.sendMessage({message: 'btStart_click'});
         });
     };
 
     document.getElementById('btStop').onclick = function () {
-        chrome.extension.sendMessage({message: 'btStop_click'});
+        browser.extension.sendMessage({message: 'btStop_click'});
     };
-    document.getElementById('btFind').onclick = function () {
-        chrome.extension.sendMessage({message: 'btFind_click'});
+    document.getElementById('btSelect').onclick = function () {
+        browser.extension.sendMessage({message: 'btSelect_click'});
     };
     document.getElementById('btManualStart').onclick = function () {
-        chrome.extension.sendMessage({message: 'btManualStart_click'});
+        browser.extension.sendMessage({message: 'btManualStart_click'});
     };
 
     document.getElementById('settings').onclick = function () {
-        chrome.tabs.create({ url: '/options.html' });
+        browser.tabs.create({ url: '/options.html' });
     };
 
    /* function fcheckMail(myemail) {

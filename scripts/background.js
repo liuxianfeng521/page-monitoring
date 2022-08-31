@@ -1,13 +1,14 @@
 ﻿
 var hasInject=false;
 
+
 chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
       console.log('request',request);
     if(request.message=="btStart_click") {
-      chrome.tabs.insertCSS(null,{file:"css/page.css"});
-      chrome.tabs.executeScript(null,{file:"scripts/jquery-1.12.1.min.js"});
-      chrome.tabs.executeScript(null,{file:"scripts/page.js"});
+        browser.tabs.insertCSS(null,{file:"css/page.css"});
+        browser.tabs.executeScript(null,{file:"scripts/jquery-1.12.1.min.js"});
+        browser.tabs.executeScript(null,{file:"scripts/page.js"});
       hasInject=true;
     }
     if(request.message=="PageChangedEvent") {
@@ -19,11 +20,11 @@ chrome.extension.onMessage.addListener(
     if(request.message=="btStop_click") {
       stopTimer();
     }
-    if(request.message=="btFind_click") {
-      findElement();
+    if(request.message=="btSelect_click") {
+        selectElement();
     }
     if(request.message=="findElementEvent") {
-        chrome.storage.sync.set({
+        browser.storage.sync.set({
             //timeInterval: document.getElementById('timeInterval').value,
             //emailAddress: document.getElementById('emailAddress').value,
             xpath:request.xpath
@@ -35,24 +36,27 @@ chrome.extension.onMessage.addListener(
  function stopTimer(){
      console.log('stopTimer');
    if(hasInject) //如果之前未注入gs.js，会报错
-        chrome.tabs.executeScript(null,{code:"stopTimer();"}); 
+       browser.tabs.executeScript(null,{code:"stopTimer();"});
  }
 function btManualStart_click(){
     console.log('btManualStart_click');
-    chrome.tabs.insertCSS(null,{file:"css/page.css"});
-    chrome.tabs.executeScript(null,{file:"scripts/jquery-1.12.1.min.js"});
-    chrome.tabs.executeScript(null,{file:"scripts/page.js"},(()=>{
-        chrome.tabs.executeScript(null,{code:"btManualStart_click();"});
-    }))
+    browser.tabs.insertCSS(null,{file:"css/page.css"});
+    browser.tabs.executeScript(null,{file:"scripts/jquery-1.12.1.min.js"});
+    browser.tabs.executeScript(null,{file:"scripts/page.js"}).then(res=>{
+        console.log('res',res);
+        hasInject=true;
+        browser.tabs.executeScript(null,{code:"btManualStart_click();"});
+    })
 }
 
-function findElement(){
-    console.log('findElement');
+function selectElement(){
+    console.log('selectElement');
     if(hasInject) //如果之前未注入gs.js，会报错
-        chrome.tabs.executeScript(null,{code:"findElement();"});
+        browser.tabs.executeScript(null,{code:"selectElement();"}).then(res=>{
+            console.log('selectElement res',res)
+        });
 }
- 
- this.audio = null;
+
  function playNotification(content){
    /* if(this.audio==null){
       this.audio=new Audio('files/attention.mp3');
@@ -79,7 +83,13 @@ function findElement(){
    $.post('http://mail.liyumeng.me/SendMail','token=7F830C40B1594B05901779C1D24E2940&receivers='+receiver+'&subject='+subject+'&message='+message,function(dat){console.log(dat);});
  }
 */
+function getTest(){
+    $.get('https://hm.baidu.com/hm.gif?cc=1&ck=1&cl=24-bit&ds=1366x768&vl=281&ep=%E9%A6%96%E9%A1%B5*99_%E9%A6%96%E9%A1%B5%E9%A1%B5%E9%9D%A2_%E9%80%9A%E7%94%A8%E9%A2%86%E5%9F%9F%E9%A2%86%E5%9F%9F%E5%8F%91%E8%B5%B7%E7%BF%BB%E8%AF%91%E6%AC%A1%E6%95%B0&et=4&ja=0&ln=zh&lo=0&lt=1661839998&rnd=3717740&si=64ecd82404c51e03dc91cb9e8c025574&v=1.2.97&lv=3&api=8_0&sn=8339&r=0&ww=1366&u=https%3A%2F%2Ffanyi.baidu.com%2F%3Faldtype%3D16047%23zh%2Fen%2F%25E9%25AA%258C%25E8%25AF%2581',(res)=>{
+        console.log('getTest',res)
+    });
+}
 
+/*
 chrome.storage.onChanged.addListener(function(changes, namespace) {
     console.log('background storage');
     for (key in changes) {
@@ -91,4 +101,4 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
             storageChange.oldValue,
             storageChange.newValue);
     }
-});
+});*/
