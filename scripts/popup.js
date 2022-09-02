@@ -15,13 +15,16 @@
     };
     document.getElementById('btSelect').onclick = function () {
         browser.extension.sendMessage({message: 'btSelect_click'});
+        popupClose();
     };
     document.getElementById('btFind').onclick = function () {
         let xpath = document.getElementById('textarea').value;
         browser.extension.sendMessage({message: 'btFind_click',xpath});
+        popupClose();
     };
     document.getElementById('btManualStart').onclick = function () {
         browser.extension.sendMessage({message: 'btManualStart_click'});
+        popupClose();
     };
 
     document.getElementById('settings').onclick = function () {
@@ -34,3 +37,8 @@
         return check;
     }*/
 };
+function  popupClose(){
+    top.window.opener=null;
+    top.window.open("", "_self");
+    top.window.close();
+}

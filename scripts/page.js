@@ -16,10 +16,10 @@ function init(){
   $.get(location.href,function(data){
     content="网页监听Demo已运行";
     $('#ymlInfo').html(content);
-    chrome.storage.sync.get('rules', function (data) {
+    browser.storage.sync.get('rules').then(data=>{
       console.log('rules.rules',data.rules);
       if (data == undefined || data == null)
-       return;
+        return;
       let rules = data.rules;
       rules.forEach(item=>{ // 给添加规则元素绑定监听事件
         let node = xpathToNode(item.selector);
@@ -30,7 +30,6 @@ function init(){
           })
         }
       });
-
     });
 
   });
@@ -46,22 +45,51 @@ function stopTimer(){
   window.onbeforeunload='';
   location.reload();
 }
-//手动开始
+//开启手动
 function btManualStart_click(){
   console.log('btManualStart_click');
   content="网页监听手动Demo已运行";
   if($('#manualCartInfo').length==0)
   {
-    $('body').prepend("<div id='manualCartInfo'><div class='button-container'>" +
-        +"wwwwwwww"+
+    const imgUrl = browser.runtime.getURL('../images/eye24.png')
+    $('body').prepend("<div id='manualCartInfo' class='drag'>" +
+        "<div id='startMonitor'>"+
+        "<div><img src='' id='img' width='24' height='24'/></div> "+
+        "<div style='border-bottom: solid 1px #eaeaea'></div>"+
+        "<span>验证</span>"+
         "</div></div>");
-
+    $('#img').attr('src',imgUrl);
+    drag();
   }
   else{
-    $('#manualCartInfo').html("网页监听助手准备运行，正在读取配置数据");
+    $('#manualCartInfo').html("wwwwwww");
   }
   return 'tees'
 
+}
+
+/*模块拖拽*/
+function drag(){
+  var _move=false;//移动标记
+  var _x,_y;//鼠标离控件左上角的相对位置
+  $(".drag").click(function(){
+    alert("click");//点击（松开后触发）
+  }).mousedown(function(e){
+    _move=true;
+    _x=e.pageX-parseInt($(".drag").css("left"));
+    _y=e.pageY-parseInt($(".drag").css("top"));
+    $(".drag").fadeTo(20, 0.5);//点击后开始拖动并透明显示
+  });
+  $(document).mousemove(function(e){
+    if(_move){
+      var x=e.pageX-_x;//移动时根据鼠标位置计算控件左上角的绝对位置
+      var y=e.pageY-_y;
+      $(".drag").css({top:y,left:x});//控件新位置
+    }
+  }).mouseup(function(){
+    _move=false;
+    $(".drag").fadeTo("fast", 1);//松开鼠标后停止移动并恢复成不透明
+  });
 }
 
 

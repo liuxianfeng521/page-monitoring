@@ -12,20 +12,39 @@ body {
 }
 
 #manualCartInfo{
-    position: absolute;
-    right: 176px;
-    background-color: var(--red);
-    z-index: 1001;
-    transform:translate3d(-35px,-70px,0px) ;
-    bottom: 100px;
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    z-index: 1000;
 }
-.button-container{
+.drag{
     display: flex;
     justify-content: center;
     align-content: center;
     flex-direction: column;
-    background: var(--button-container);
+    border-radius: 30px;
+    cursor:pointer;
+    border-radius: 24px;
+    background-color: #FFF;
+    border: 1px solid #F0F2F5;
+    box-shadow: 0px 8px 40px 0px rgb(30 35 45 / 8%)
 }
+.drag:hover {
+   /* background: linear-gradient(
+            0deg, #FFFFFF,#F0F2F5);*/
+    background:#F0F2F5
+}
+#startMonitor{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align:center;
+    padding: 12px 0px;
+}
+
 #selenium-highlight {
     display: none;
 }
